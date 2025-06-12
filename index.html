@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Advanced Tips: Avoid Horizontal Scroll</title>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --card: #1e293b;
+      --text: #f1f5f9;
+      --accent: #60a5fa;
+      --code-bg: #334155;
+      --code-text: #fcd34d;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: 'Segoe UI', Tahoma, sans-serif;
+      margin: 0;
+      padding: 2rem 1rem;
+      line-height: 1.7;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: auto;
+    }
+
+    h1 {
+      font-size: 2.25rem;
+      color: var(--accent);
+      margin-bottom: 1.5rem;
+      text-align: center;
+    }
+
+    details {
+      background: var(--card);
+      border: 1px solid #334155;
+      border-radius: 8px;
+      margin-bottom: 1rem;
+      padding: 1rem 1.2rem;
+    }
+
+    summary {
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 1.1rem;
+      color: var(--accent);
+    }
+
+    pre {
+      background: var(--code-bg);
+      padding: 0.75rem;
+      border-radius: 6px;
+      overflow-x: auto;
+      font-size: 0.95rem;
+      margin: 0.5rem 0 1rem;
+      color: var(--code-text);
+    }
+
+    .note {
+      font-style: italic;
+      margin-bottom: 0.5rem;
+    }
+
+    ul {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    li {
+      margin-bottom: 0.5rem;
+    }
+
+    a {
+      color: var(--accent);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🔍 Advanced Tips to Avoid Horizontal Scroll</h1>
+
+    <details open>
+      <summary>🔄 1. Watch for Negative Margins</summary>
+      <p class="note">Negative margins can push content out of the viewport.</p>
+      <pre><code>/* BAD */
+.element {
+  margin-left: -20px;
+}</code></pre>
+      <p>✔️ Use padding or <code>gap</code> in flex/grid layouts instead when possible.</p>
+    </details>
+
+    <details>
+      <summary>📐 2. Be careful with vw units</summary>
+      <p class="note">Using <code>width: 100vw</code> can ignore the scrollbar width and cause overflow.</p>
+      <pre><code>/* BAD */
+.full-width {
+  width: 100vw;
+}
+
+/* GOOD */
+.full-width {
+  width: 100%;
+}</code></pre>
+      <p>💡 Use <code>100%</code> unless you explicitly need <code>100vw</code>.</p>
+    </details>
+
+    <details>
+      <summary>🔳 3. Check absolutely positioned elements</summary>
+      <p>They can accidentally overflow if not properly constrained.</p>
+      <pre><code>.bad-popup {
+  position: absolute;
+  left: 100%;
+}</code></pre>
+      <p>✔️ Use <code>overflow: hidden</code> or wrap inside a relatively positioned parent.</p>
+    </details>
+
+    <details>
+      <summary>📏 4. Media queries for better responsiveness</summary>
+      <pre><code>@media (max-width: 768px) {
+  .sidebar {
+    display: none;
+  }
+}</code></pre>
+      <p>Responsive design helps prevent layout breaks and horizontal scroll on small screens.</p>
+    </details>
+
+    <details>
+      <summary>📦 5. Use Flexbox or Grid properly</summary>
+      <pre><code>.flex-container {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.flex-child {
+  min-width: 0;
+}</code></pre>
+      <p>✅ Ensure children don't grow beyond their container width.</p>
+    </details>
+
+    <details>
+      <summary>💥 6. Use overflow-x: auto on containers</summary>
+      <pre><code>.code-block {
+  overflow-x: auto;
+  max-width: 100%;
+}</code></pre>
+      <p>Make scrollable **sections** scroll, not the **entire page**.</p>
+    </details>
+
+    <details>
+      <summary>🧪 7. Use DevTools “Inspect > Dimensions”</summary>
+      <p>Open Chrome DevTools → Toggle device toolbar → Scroll to the right to catch hidden overflow.</p>
+    </details>
+
+    <details>
+      <summary>🛠 8. Try a CSS Reset or Normalize</summary>
+      <pre><code>*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}</code></pre>
+      <p>This helps eliminate browser inconsistencies that might cause overflow.</p>
+    </details>
+
+    <details>
+      <summary>🚫 9. Avoid inline styles for widths</summary>
+      <p>Hard-coded widths from JS can be risky. Prefer CSS classes and media queries.</p>
+    </details>
+
+    <details>
+      <summary>🧰 10. Tools that help</summary>
+      <ul>
+        <li><a href="https://csslint.net" target="_blank">CSS Lint</a></li>
+        <li><a href="https://developer.chrome.com/docs/devtools/layout" target="_blank">Chrome DevTools Layout pane</a></li>
+        <li><a href="https://responsively.app" target="_blank">Responsively App</a></li>
+      </ul>
+    </details>
+
+    <details>
+      <summary>📋 Bonus: Quick Checklist</summary>
+      <ul>
+        <li>✅ <code>&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;</code></li>
+        <li>✅ <code>box-sizing: border-box</code> everywhere</li>
+        <li>✅ Avoid <code>100vw</code> for full-width layouts</li>
+        <li>✅ Set <code>max-width: 100%</code> for images/videos</li>
+        <li>✅ <code>flex-wrap: wrap</code> for flex layouts</li>
+        <li>✅ Inspect elements that extend beyond screen</li>
+        <li>✅ Use responsive <code>@media</code> breakpoints</li>
+      </ul>
+    </details>
+  </div>
+</body>
+</html>
